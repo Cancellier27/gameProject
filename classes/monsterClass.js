@@ -1,4 +1,8 @@
-class Monster extends Sprite {
+import Sprite from "./spriteClass.js"
+import monstersData from '../data/monsters.js'
+import audio from '../data/audio.js'
+
+export default class Monster extends Sprite {
     constructor({
       isEnemy = false,
       name,

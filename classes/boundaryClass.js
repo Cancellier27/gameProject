@@ -1,4 +1,7 @@
-class Boundary {
+const canvas = document.querySelector("canvas")
+const c = canvas.getContext("2d")
+
+export default class Boundary {
     static width = 48
     static height = 48
   

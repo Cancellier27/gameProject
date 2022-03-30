@@ -1,3 +1,10 @@
+import {animatePlayer, battle} from './index.js'
+import Sprite from './classes/spriteClass.js'
+import attacks from './data/attacks.js'
+import Monster from './classes/monsterClass.js'
+import monstersData from './data/monsters.js'
+import audio from './data/audio.js'
+
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = "./images/battleBackground.png"
 const battleBackground = new Sprite({
@@ -126,7 +133,7 @@ function animateBattle() {
   })
 }
 // initBattle()
-animatePlayer()
+// animatePlayer()
 // animateBattle()
 
 document.querySelector(".dialogueBox").addEventListener("click", (e) => {
@@ -137,3 +144,5 @@ document.querySelector(".dialogueBox").addEventListener("click", (e) => {
     e.currentTarget.style.display = "none"
   }
 })
+
+export {initBattle, animateBattle}

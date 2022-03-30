@@ -1,3 +1,10 @@
+import Boundary from './classes/boundaryClass.js'
+import Sprite from './classes/spriteClass.js'
+import collisions from './data/collisions.js'
+import battleZonesData from './data/battleZones.js'
+import {initBattle, animateBattle} from './battleScene.js'
+import audio from './data/audio.js'
+
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 
@@ -377,3 +384,5 @@ addEventListener('click', () => {
     clicked = true
   }
 })
+
+export {animatePlayer, c, battle}

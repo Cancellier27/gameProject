@@ -1,3 +1,5 @@
+import attacks from './attacks.js'
+
 const monstersData = {
   Emby: {
     position: {
@@ -45,3 +47,5 @@ const monstersData = {
     }
   }
 }
+
+export {monstersData as default}

@@ -1,4 +1,7 @@
-class Sprite {
+const canvas = document.querySelector("canvas")
+const c = canvas.getContext("2d")
+
+export default class Sprite {
     constructor({
       position,
       velocity = 2,

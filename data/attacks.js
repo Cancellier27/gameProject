@@ -17,3 +17,5 @@ const attacks = {
     //     type: 'Fire'
     //   }
 }
+
+export {attacks as default}

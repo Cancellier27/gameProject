@@ -35,3 +35,5 @@ const audio = {
     volume: 0.2
   })
 }
+
+export {audio as default}
