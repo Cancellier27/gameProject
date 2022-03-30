@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Press Start 2P", cursive;
+}
+
+body {
+  background-color: black;
+}
+
+#gameContainer {
+  display: inline-block;
+  position: relative;
+}
+
+#battleZoneContainer {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#actionBarContainer {
+  /* z-index: 1; */
+  background-color: white;
+  position: absolute;
+  height: 140px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border-top: 4px black solid;
+  display: flex;
+}
+
+.attackOptions {
+  padding: 5px;
+  width: 66.7%;
+  border-right: 4px black solid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 5px;
+  display: grid;
+}
+
+.attackOptions button {
+  border: 0;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 8px;
+}
+.attackOptions button:hover {
+  background-color: #ddd;
+}
+
+.attackTypeContainer {
+  width: 33.3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.attackType {
+    font-size: 20px
+}
+
+.enemyInfoContainer {
+  background-color: white;
+  border: 4px black solid;
+  border-radius: 8px;
+  position: absolute;
+  width: 250px;
+  top: 50px;
+  left: 50px;
+  padding: 10px;
+}
+
+.ourInfoContainer {
+  background-color: white;
+  border: 4px black solid;
+  border-radius: 8px;
+  position: absolute;
+  width: 250px;
+  bottom: 190px;
+  right: 50px;
+  padding: 10px;
+}
+
+.pokeName {
+  font-size: 16px;
+}
+
+.enemyInfoContainer > div,
+.ourInfoContainer > div {
+  position: relative;
+}
+
+.hpBackground {
+  margin-top: 10px;
+  height: 5px;
+  background-color: #ccc;
+}
+
+.enemyHp,
+.ourHp {
+  height: 5px;
+  background-color: green;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.dialogueBox {
+  padding: 12px;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  cursor: pointer;
+}

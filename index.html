@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="style.css" />
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>Poke Style Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="gameContainer">
+      <div id="battleZoneContainer"></div>
+      <canvas></canvas>
+
+      <div id="userInterfaceContainer">
+        <div class="enemyInfoContainer">
+          <h1 class="pokeName">Draggle</h1>
+          <div>
+            <div class="hpBackground"></div>
+            <div class="enemyHp"></div>
+          </div>
+        </div>
+
+        <div class="ourInfoContainer">
+          <h1 class="pokeName">Emby</h1>
+          <div>
+            <div class="hpBackground"></div>
+            <div class="ourHp"></div>
+          </div>
+        </div>
+
+        <div id="actionBarContainer">
+          <div class="dialogueBox"></div>
+          <div class="attackOptions"></div>
+          <div class="attackTypeContainer">
+            <h1 class="attackType">Atack type</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+    integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+
+  <script src="data/collisions.js"></script>
+  <script src="data/audio.js"></script>
+  <script src="data/battleZones.js"></script>
+  <script src="data/attacks.js"></script>
+  <script src="data/monsters.js"></script>
+  <script src="./classes/boundaryClass.js"></script>
+  <script src="./classes/spriteClass.js"></script>
+  <script src="./classes/monsterClass.js"></script>
+  <script src="index.js"></script>
+  <script src="battleScene.js"></script>
+</html>
