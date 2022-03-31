@@ -6,8 +6,6 @@ import {initBattle, animateBattle} from './battleScene.js'
 import audio from './data/audio.js'
 import wildMonstersData from './data/monsters/wildMonsters.js'
 import ourMonstersData from './data/monsters/ourMonsters.js'
-// import monsters from './data/monsters.js'
-// import Monster from './classes/monsterClass.js'
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
@@ -194,7 +192,7 @@ function animatePlayer() {
           rectangle2: battleZone
         }) &&
         overlappingArea > (player.width * player.height) / 2 &&
-        Math.random() < 0.01
+        Math.random() < 0.1
       ) {
         console.log("activate battle")
         window.cancelAnimationFrame(animationId)

@@ -1,10 +1,10 @@
-import {animatePlayer, battle} from './index.js'
-import Sprite from './classes/spriteClass.js'
-import attacks from './data/attacks.js'
-import Monster from './classes/monsterClass.js'
-import ourMonstersData from './data/monsters/ourMonsters.js'
-import wildMonstersData from './data/monsters/wildMonsters.js'
-import audio from './data/audio.js'
+import {animatePlayer, battle} from "./index.js"
+import Sprite from "./classes/spriteClass.js"
+import attacks from "./data/attacks.js"
+import Monster from "./classes/monsterClass.js"
+import ourMonstersData from "./data/monsters/ourMonsters.js"
+import wildMonstersData from "./data/monsters/wildMonsters.js"
+import audio from "./data/audio.js"
 
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = "./images/battleBackground.png"
@@ -31,8 +31,12 @@ function initBattle({enemy, ourMonster}) {
   document.querySelector(".attackOptions").replaceChildren()
 
   // give the right names to our pokes with levels
-  document.querySelector('.pokeNameEnemy').innerHTML = `${wildMonstersData[enemy].name} ${wildMonstersData[enemy].status.level}`
-  document.querySelector('.pokeNameFriend').innerHTML = `${ourMonstersData[ourMonster].name} ${ourMonstersData[ourMonster].status.level}`
+  document.querySelector(
+    ".pokeNameEnemy"
+  ).innerHTML = `${wildMonstersData[enemy].name} ${wildMonstersData[enemy].status.level}`
+  document.querySelector(
+    ".pokeNameFriend"
+  ).innerHTML = `${ourMonstersData[ourMonster].name} ${ourMonstersData[ourMonster].status.level}`
 
   enemySprite = new Monster(wildMonstersData[enemy])
   friendSprite = new Monster(ourMonstersData[ourMonster])
@@ -41,12 +45,19 @@ function initBattle({enemy, ourMonster}) {
 
   enemySprite.showingEnemyUp()
 
+  // shows initial message to the player.
+  timeTest(enemySprite)
+
+  // while(initialMessageTimeOut !== 0) {
+  //   console.log('waiting')
+  // }
+
   friendSprite.attacks.forEach((attack) => {
     const button = document.createElement("button")
     button.innerHTML = attack.name
     document.querySelector(".attackOptions").append(button)
   })
-
+  console.log("aqui ja")
   document.querySelectorAll("button").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const selectedAttack = e.currentTarget.innerHTML
@@ -88,7 +99,9 @@ function initBattle({enemy, ourMonster}) {
 
       // friendSprite or enemy just attack
       const ramdomAttack =
-        enemySprite.attacks[Math.floor(Math.random() * enemySprite.attacks.length)]
+        enemySprite.attacks[
+          Math.floor(Math.random() * enemySprite.attacks.length)
+        ]
 
       queue.push(() => {
         enemySprite.attack({
@@ -152,5 +165,14 @@ document.querySelector(".dialogueBox").addEventListener("click", (e) => {
     e.currentTarget.style.display = "none"
   }
 })
+
+function timeTest(monster) {
+  document.querySelector(".dialogueBox").style.display = "block"
+  document.querySelector(".dialogueBox").innerHTML =
+    "A wild " + monster.name + " has appeared!"
+  const hideInitialMessage = () =>
+    (document.querySelector(".dialogueBox").style.display = "none")
+  setTimeout(hideInitialMessage, 4000)
+}
 
 export {initBattle, animateBattle}
