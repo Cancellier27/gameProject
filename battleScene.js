@@ -30,9 +30,6 @@ function initBattle({enemy, ourMonster}) {
   document.querySelector(".ourHp").style.width = "100%"
   document.querySelector(".attackOptions").replaceChildren()
 
-  console.log(enemy)
-  console.log(ourMonster)
-
   // give the right names to our pokes with levels
   document.querySelector('.pokeNameEnemy').innerHTML = `${wildMonstersData[enemy].name} ${wildMonstersData[enemy].status.level}`
   document.querySelector('.pokeNameFriend').innerHTML = `${ourMonstersData[ourMonster].name} ${ourMonstersData[ourMonster].status.level}`

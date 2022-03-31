@@ -4,8 +4,8 @@ const wildMonstersData = {
   Emby_1: {
     id: 0,
     position: {
-      x: 280,
-      y: 325
+      x: 800,
+      y: 100
     },
     image: {
       src: "./images/embySprite.png"

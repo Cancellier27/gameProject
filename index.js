@@ -194,11 +194,10 @@ function animatePlayer() {
           rectangle2: battleZone
         }) &&
         overlappingArea > (player.width * player.height) / 2 &&
-        Math.random() < 1
+        Math.random() < 0.01
       ) {
         console.log("activate battle")
         window.cancelAnimationFrame(animationId)
-          console.log(ourMonstersData)
 
         audio.Map.stop()
         audio.initBattle.play()
@@ -223,8 +222,7 @@ function animatePlayer() {
                 }
 
                 let wildMonsterName
-                let ramdomMonsterId = Math.floor(Math.random(wildMonstersData.length)) 
-                console.log(Object.keys(wildMonstersData).length)
+                let ramdomMonsterId = Math.floor(Math.random() * Object.keys(wildMonstersData).length)
                 for(const [key, value] of Object.entries(wildMonstersData)) {
                   if (value.id === ramdomMonsterId) {
                     wildMonsterName = `${key}`

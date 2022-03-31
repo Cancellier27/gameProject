@@ -1,5 +1,6 @@
 import Sprite from "./spriteClass.js"
-import monstersData from '../data/monsters.js'
+import wildMonstersData from '../data/monsters/wildMonsters.js'
+import ourMonstersData from '../data/monsters/ourMonsters.js'
 import audio from '../data/audio.js'
 
 export default class Monster extends Sprite {
@@ -53,13 +54,11 @@ export default class Monster extends Sprite {
             this.experience = 0
         }
 
-        monstersData.Emby.status = {
-            ...monstersData.Emby.status,
+        ourMonstersData.Emby_1.status = {
+            ...ourMonstersData.Emby_1.status,
             experience: this.experience,
             level: this.level
         }
-        console.log(this.expEarned)
-        console.log(this.health)
     }
   
     attack({attack, recipient, renderSprites}) {
