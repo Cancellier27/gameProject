@@ -2,7 +2,8 @@ import {animatePlayer, battle} from './index.js'
 import Sprite from './classes/spriteClass.js'
 import attacks from './data/attacks.js'
 import Monster from './classes/monsterClass.js'
-import monstersData from './data/monsters.js'
+import ourMonstersData from './data/monsters/ourMonsters.js'
+import wildMonstersData from './data/monsters/wildMonsters.js'
 import audio from './data/audio.js'
 
 const battleBackgroundImage = new Image()
@@ -15,25 +16,33 @@ const battleBackground = new Sprite({
   image: battleBackgroundImage
 })
 
-let draggle
-let emby
+let enemySprite
+let friendSprite
 let renderSprites
 let battleAnimationId
 let queue
 
-function initBattle() {
+// added parameters to make the monsters dynamic
+function initBattle({enemy, ourMonster}) {
   document.querySelector("#userInterfaceContainer").style.display = "block"
   document.querySelector(".dialogueBox").style.display = "none"
   document.querySelector(".enemyHp").style.width = "100%"
   document.querySelector(".ourHp").style.width = "100%"
   document.querySelector(".attackOptions").replaceChildren()
 
-  draggle = new Monster(monstersData.Draggle)
-  emby = new Monster(monstersData.Emby)
-  renderSprites = [draggle, emby]
+  console.log(enemy)
+  console.log(ourMonster)
+
+  // give the right names to our pokes with levels
+  document.querySelector('.pokeNameEnemy').innerHTML = `${wildMonstersData[enemy].name} ${wildMonstersData[enemy].status.level}`
+  document.querySelector('.pokeNameFriend').innerHTML = `${ourMonstersData[ourMonster].name} ${ourMonstersData[ourMonster].status.level}`
+
+  enemySprite = new Monster(wildMonstersData[enemy])
+  friendSprite = new Monster(ourMonstersData[ourMonster])
+  renderSprites = [enemySprite, friendSprite]
   queue = []
 
-  emby.attacks.forEach((attack) => {
+  friendSprite.attacks.forEach((attack) => {
     const button = document.createElement("button")
     button.innerHTML = attack.name
     document.querySelector(".attackOptions").append(button)
@@ -44,17 +53,17 @@ function initBattle() {
       const selectedAttack = e.currentTarget.innerHTML
       if (selectedAttack === "") return
 
-      emby.attack({
+      friendSprite.attack({
         attack: attacks[selectedAttack],
-        recipient: draggle,
+        recipient: enemySprite,
         renderSprites
       })
 
-      if (draggle.health <= 0) {
+      if (enemySprite.health <= 0) {
         queue.push(() => {
-          draggle.faint()
-          emby.leveling({
-            recipient: draggle
+          enemySprite.faint()
+          friendSprite.leveling({
+            recipient: enemySprite
           })
         })
         queue.push(() => {
@@ -78,19 +87,19 @@ function initBattle() {
         })
       }
 
-      // emby or enemy just attack
+      // friendSprite or enemy just attack
       const ramdomAttack =
-        draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
+        enemySprite.attacks[Math.floor(Math.random() * enemySprite.attacks.length)]
 
       queue.push(() => {
-        draggle.attack({
+        enemySprite.attack({
           attack: ramdomAttack,
-          recipient: emby,
+          recipient: friendSprite,
           renderSprites
         })
-        if (emby.health <= 0) {
+        if (friendSprite.health <= 0) {
           queue.push(() => {
-            emby.faint()
+            friendSprite.faint()
           })
 
           queue.push(() => {

@@ -1,35 +1,38 @@
-import attacks from './attacks.js'
+import attacks from "../attacks.js"
 
-const monstersData = {
-  Emby: {
+const wildMonstersData = {
+  Emby_1: {
+    id: 0,
     position: {
       x: 280,
       y: 325
     },
     image: {
-        src: './images/embySprite.png'
+      src: "./images/embySprite.png"
     },
     frames: {
       max: 4,
       hold: 50
     },
     animate: true,
+    isEnemy: true,
     name: "Emby",
     attacks: [attacks.Tackle, attacks.Fireball],
-    status:{
+    status: {
       level: 1,
       expEarned: 20,
       experience: 0,
-      health: 100 
+      health: 100
     }
   },
-  Draggle: {
+  Draggle_1: {
+    id: 1,
     position: {
       x: 800,
       y: 100
     },
     image: {
-        src: "./images/draggleSprite.png"
+      src: "./images/draggleSprite.png"
     },
     frames: {
       max: 4,
@@ -39,20 +42,21 @@ const monstersData = {
     isEnemy: true,
     name: "Draggle",
     attacks: [attacks.Tackle, attacks.Fireball],
-    status:{
+    status: {
       level: 1,
       expEarned: 50,
       experience: 0,
-      health: 100 
+      health: 100
     }
   },
-  Draggle: {
+  Draggle_2: {
+    id: 2,
     position: {
       x: 800,
       y: 100
     },
     image: {
-        src: "./images/draggleSprite.png"
+      src: "./images/draggleSprite.png"
     },
     frames: {
       max: 4,
@@ -62,13 +66,13 @@ const monstersData = {
     isEnemy: true,
     name: "Draggle",
     attacks: [attacks.Tackle, attacks.Fireball],
-    status:{
+    status: {
       level: 3,
       expEarned: 50,
       experience: 0,
-      health: 100 
+      health: 100
     }
   }
 }
 
-export {monstersData as default}
+export {wildMonstersData as default}
