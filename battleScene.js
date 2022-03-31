@@ -39,6 +39,8 @@ function initBattle({enemy, ourMonster}) {
   renderSprites = [enemySprite, friendSprite]
   queue = []
 
+  enemySprite.showingEnemyUp()
+
   friendSprite.attacks.forEach((attack) => {
     const button = document.createElement("button")
     button.innerHTML = attack.name
