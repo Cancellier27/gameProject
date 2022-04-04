@@ -1,11 +1,12 @@
-import Boundary from './classes/boundaryClass.js'
-import Sprite from './classes/spriteClass.js'
-import collisions from './data/collisions.js'
-import battleZonesData from './data/battleZones.js'
-import {initBattle, animateBattle} from './battleScene.js'
-import audio from './data/audio.js'
-import wildMonstersData from './data/monsters/wildMonsters.js'
-import ourMonstersData from './data/monsters/ourMonsters.js'
+import Boundary from "./classes/boundaryClass.js"
+import Sprite from "./classes/spriteClass.js"
+import collisions from "./data/collisions.js"
+import battleZonesData from "./data/battleZones.js"
+import doorData from "./data/door.js"
+import {initBattle, animateBattle} from "./battleScene.js"
+import audio from "./data/audio.js"
+import wildMonstersData from "./data/monsters/wildMonsters.js"
+import ourMonstersData from "./data/monsters/ourMonsters.js"
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
@@ -24,6 +25,11 @@ for (let i = 0; i < battleZonesData.length; i += 70) {
   battleZonesMap.push(battleZonesData.slice(i, i + 70))
 }
 
+const doorsMap = []
+for (let i = 0; i < doorData.length; i += 70) {
+  doorsMap.push(doorData.slice(i, i + 70))
+}
+
 const boundaries = []
 const offset = {
   x: -1025,
@@ -32,7 +38,7 @@ const offset = {
 
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    if (symbol === 1025) {
+    if (symbol > 1) {
       boundaries.push(
         new Boundary({
           position: {
@@ -48,8 +54,24 @@ collisionsMap.forEach((row, i) => {
 const battleZones = []
 battleZonesMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    if (symbol === 1025) {
+    if (symbol > 1) {
       battleZones.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y
+          }
+        })
+      )
+    }
+  })
+})
+
+const doors = []
+doorsMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol > 1) {
+      doors.push(
         new Boundary({
           position: {
             x: j * Boundary.width + offset.x,
@@ -131,7 +153,13 @@ const keys = {
   }
 }
 
-const movables = [background, ...boundaries, foreground, ...battleZones]
+const movables = [
+  background,
+  ...boundaries,
+  foreground,
+  ...battleZones,
+  ...doors
+]
 
 function rectangleCollisions({rectangle1, rectangle2}) {
   return (
@@ -147,8 +175,7 @@ const battle = {
 }
 
 function animatePlayer() {
-  document.querySelector("#userInterfaceContainer").style.display =
-  "none"
+  document.querySelector("#userInterfaceContainer").style.display = "none"
 
   const animationId = window.requestAnimationFrame(animatePlayer)
 
@@ -159,6 +186,9 @@ function animatePlayer() {
   })
   battleZones.forEach((battleZone) => {
     battleZone.draw()
+  })
+  doors.forEach((door) => {
+    door.draw()
   })
   player.draw()
   foreground.draw()
@@ -200,7 +230,7 @@ function animatePlayer() {
         audio.Map.stop()
         audio.initBattle.play()
         audio.battle.play()
-        
+
         battle.initiated = true
         gsap.to("#battleZoneContainer", {
           opacity: 1,
@@ -213,22 +243,24 @@ function animatePlayer() {
               duration: 0.4,
               onComplete() {
                 let ourMonsterName
-                for(const [key, value] of Object.entries(ourMonstersData)) {
+                for (const [key, value] of Object.entries(ourMonstersData)) {
                   if (value.selected) {
                     ourMonsterName = `${key}`
-                  } 
+                  }
                 }
 
                 let wildMonsterName
-                let ramdomMonsterId = Math.floor(Math.random() * Object.keys(wildMonstersData).length)
-                for(const [key, value] of Object.entries(wildMonstersData)) {
+                let ramdomMonsterId = Math.floor(
+                  Math.random() * Object.keys(wildMonstersData).length
+                )
+                for (const [key, value] of Object.entries(wildMonstersData)) {
                   if (value.id === ramdomMonsterId) {
                     wildMonsterName = `${key}`
                   }
                 }
 
                 // activate a new animation loop
-                initBattle({ enemy: wildMonsterName, ourMonster: ourMonsterName })
+                initBattle({enemy: wildMonsterName, ourMonster: ourMonsterName})
                 animateBattle()
                 gsap.to("#battleZoneContainer", {
                   opacity: 0,
@@ -264,6 +296,49 @@ function animatePlayer() {
         console.log("colliding")
         moving = false
         break
+      }
+    }
+
+    for (let i = 0; i < doors.length; i++) {
+      // console.log(doors[i])
+      const door = doors[i]
+      // if (
+      //   rectangleCollisions({
+      //     rectangle1: player,
+      //     rectangle2: {
+      //       ...door,
+      //       position: {
+      //         x: door.position.x,
+      //         y: door.position.y + player.velocity
+      //       }
+      //     }
+      //   })
+      // ) {
+      //   console.log("colliding w door")
+      //   // moving = false
+      //   break
+      // }
+
+      const overlappingArea =
+        (Math.min(
+          player.position.x + player.width,
+          door.position.x + door.width
+        ) -
+          Math.max(player.position.x, door.position.x)) *
+        (Math.min(
+          player.position.y + player.height,
+          door.position.y + door.height
+        ) -
+          Math.max(player.position.y, door.position.y))
+      if (
+        rectangleCollisions({
+          rectangle1: player,
+          rectangle2: door
+        }) &&
+        overlappingArea > (player.width * player.height) / 3 &&
+        Math.random() < 1
+      ) {
+        console.log("entrou")
       }
     }
 
@@ -395,8 +470,8 @@ window.addEventListener("keyup", (e) => {
 })
 
 let clicked = false
-addEventListener('click', () => {
-  if (!clicked){
+addEventListener("click", () => {
+  if (!clicked) {
     audio.Map.play()
     clicked = true
   }
