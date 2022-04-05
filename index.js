@@ -3,12 +3,12 @@ import Sprite from "./classes/spriteClass.js"
 import collisions from "./data/collisions.js"
 import battleZonesData from "./data/battleZones.js"
 import doorData from "./data/door.js"
-import {initBattle, animateBattle} from "./battleScene.js"
+import {animateBattle} from "./battleScene.js"
 import audio from "./data/audio.js"
-import wildMonstersData from "./data/monsters/wildMonsters.js"
-import ourMonstersData from "./data/monsters/ourMonsters.js"
 import loadMap from "./loadMap.js"
 import scenarios from "./data/scenarios.js"
+import battleZoneCollision from './battleZoneCollision.js'
+import rectangleCollisions from './rectangleCollisions.js'
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
@@ -143,14 +143,7 @@ const movables = [
   ...doors
 ]
 
-function rectangleCollisions({rectangle1, rectangle2}) {
-  return (
-    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-  )
-}
+
 
 const battle = {
   initiated: false
@@ -185,76 +178,7 @@ function animatePlayer() {
     keys.ArrowLeft.pressed ||
     keys.ArrowRight.pressed
   ) {
-    for (let i = 0; i < battleZones.length; i++) {
-      const battleZone = battleZones[i]
-      const overlappingArea =
-        (Math.min(
-          player.position.x + player.width,
-          battleZone.position.x + battleZone.width
-        ) -
-          Math.max(player.position.x, battleZone.position.x)) *
-        (Math.min(
-          player.position.y + player.height,
-          battleZone.position.y + battleZone.height
-        ) -
-          Math.max(player.position.y, battleZone.position.y))
-      if (
-        rectangleCollisions({
-          rectangle1: player,
-          rectangle2: battleZone
-        }) &&
-        overlappingArea > (player.width * player.height) / 2 &&
-        Math.random() < 0.1
-      ) {
-        console.log("activate battle")
-        window.cancelAnimationFrame(animationId)
-
-        audio.Map.stop()
-        audio.initBattle.play()
-        audio.battle.play()
-
-        battle.initiated = true
-        gsap.to("#battleZoneContainer", {
-          opacity: 1,
-          repeat: 3,
-          yoyo: true,
-          duration: 0.4,
-          onComplete() {
-            gsap.to("#battleZoneContainer", {
-              opacity: 1,
-              duration: 0.4,
-              onComplete() {
-                let ourMonsterName
-                for (const [key, value] of Object.entries(ourMonstersData)) {
-                  if (value.selected) {
-                    ourMonsterName = `${key}`
-                  }
-                }
-
-                let wildMonsterName
-                let ramdomMonsterId = Math.floor(
-                  Math.random() * Object.keys(wildMonstersData).length
-                )
-                for (const [key, value] of Object.entries(wildMonstersData)) {
-                  if (value.id === ramdomMonsterId) {
-                    wildMonsterName = `${key}`
-                  }
-                }
-
-                // activate a new animation loop
-                initBattle({enemy: wildMonsterName, ourMonster: ourMonsterName})
-                animateBattle()
-                gsap.to("#battleZoneContainer", {
-                  opacity: 0,
-                  duration: 0.4
-                })
-              }
-            })
-          }
-        })
-        break
-      }
-    }
+    battleZoneCollision(battleZones, player, audio, animateBattle, animationId, battle)
   }
 
   if (keys.ArrowUp.pressed && lastKey === "Up") {
@@ -284,23 +208,6 @@ function animatePlayer() {
     for (let i = 0; i < doors.length; i++) {
       // console.log(doors[i])
       const door = doors[i]
-      // if (
-      //   rectangleCollisions({
-      //     rectangle1: player,
-      //     rectangle2: {
-      //       ...door,
-      //       position: {
-      //         x: door.position.x,
-      //         y: door.position.y + player.velocity
-      //       }
-      //     }
-      //   })
-      // ) {
-      //   console.log("colliding w door")
-      //   // moving = false
-      //   break
-      // }
-
       const overlappingArea =
         (Math.min(
           player.position.x + player.width,
