@@ -7,6 +7,8 @@ import {initBattle, animateBattle} from "./battleScene.js"
 import audio from "./data/audio.js"
 import wildMonstersData from "./data/monsters/wildMonsters.js"
 import ourMonstersData from "./data/monsters/ourMonsters.js"
+import loadMap from "./loadMap.js"
+import scenarios from "./data/scenarios.js"
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
@@ -83,11 +85,6 @@ doorsMap.forEach((row, i) => {
   })
 })
 
-const mapImage = new Image()
-mapImage.src = "./images/Pokemon_MAP_1.png"
-
-const foregroundImage = new Image()
-foregroundImage.src = "./images/foregroungObjects.png"
 
 const playerDownImage = new Image()
 playerDownImage.src = "./images/playerDown.png"
@@ -120,23 +117,8 @@ const player = new Sprite({
   }
 })
 
-const background = new Sprite({
-  position: {
-    x: offset.x,
-    y: offset.y
-  },
-  image: mapImage,
-  velocity: 2
-})
-
-const foreground = new Sprite({
-  position: {
-    x: offset.x,
-    y: offset.y
-  },
-  image: foregroundImage,
-  velocity: 2
-})
+const background = loadMap(scenarios.mainMap)
+const foreground = loadMap(scenarios.foreground)
 
 const keys = {
   ArrowUp: {
