@@ -1,28 +1,22 @@
 import rectangleCollisions from "./rectangleCollisions.js"
+import { keys } from "./index.js"
 
-const keys = {
-  ArrowUp: {
-    pressed: false
-  },
-  ArrowDown: {
-    pressed: false
-  },
-  ArrowLeft: {
-    pressed: false
-  },
-  ArrowRight: {
-    pressed: false
-  }
-}
+// const keys = {
+//   ArrowUp: {
+//     pressed: false
+//   },
+//   ArrowDown: {
+//     pressed: false
+//   },
+//   ArrowLeft: {
+//     pressed: false
+//   },
+//   ArrowRight: {
+//     pressed: false
+//   }
+// }
 
-export default function animatePlayerMovement(player, boundaries, movables) {
-
-  let moving = true
-  player.animate = false
-
-  if (battle.initiated) return
-
-
+export default function animatePlayerMovement(player, boundaries, movables, moving) {
   if (keys.ArrowUp.pressed && lastKey === "Up") {
     player.animate = true
     player.image = player.sprites.up
@@ -43,6 +37,7 @@ export default function animatePlayerMovement(player, boundaries, movables) {
       ) {
         console.log("colliding")
         moving = false
+        return keys
         break
       }
     }
