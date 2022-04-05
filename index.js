@@ -9,6 +9,7 @@ import loadMap from "./loadMap.js"
 import scenarios from "./data/scenarios.js"
 import battleZoneCollision from './battleZoneCollision.js'
 import rectangleCollisions from './rectangleCollisions.js'
+import animateHouse1 from './house1Scene.js'
 
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
@@ -117,8 +118,8 @@ const player = new Sprite({
   }
 })
 
-const background = loadMap(scenarios.mainMap)
-const foreground = loadMap(scenarios.foreground)
+const background = loadMap(scenarios.mainMap, offset)
+const foreground = loadMap(scenarios.foreground, offset)
 
 const keys = {
   ArrowUp: {
@@ -227,6 +228,8 @@ function animatePlayer() {
         overlappingArea > (player.width * player.height) / 3 &&
         Math.random() < 1
       ) {
+        window.cancelAnimationFrame(animationId)
+        animateHouse1(player)
         console.log("entrou")
       }
     }
@@ -366,4 +369,4 @@ addEventListener("click", () => {
   }
 })
 
-export {animatePlayer, c, battle}
+export {animatePlayer, c, battle, player as default}

@@ -1,11 +1,6 @@
 import Sprite from "./classes/spriteClass.js"
 
-const offset = {
-  x: -1025,
-  y: -525
-}
-
-export default function loadMap(scenario) {
+export default function loadMap(scenario, offset) {
   const mapImage = new Image()
   mapImage.src = scenario.src
 
